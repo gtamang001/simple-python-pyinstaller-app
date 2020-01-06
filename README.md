@@ -16,3 +16,28 @@ and execute at the command line on Linux machines without Python.
 
 The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
 you'll be creating yourself during the tutorial.
+
+## How to run locally 
+Follow the instructions at [ how to run python app with jenkins](https://jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/)
+
+## Commands to run 
+```bash 
+# Run docker:dind image 
+docker container run --name jenkins-docker --rm --detach \
+  --privileged --network jenkins --network-alias docker \
+  --env DOCKER_TLS_CERTDIR=/certs \
+  --volume jenkins-docker-certs:/certs/client \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume "$HOME":/home \
+  docker:dind
+# Run blue ocean jenkins image 
+docker container run --name jenkins-tutorial --rm --detach \
+  --network jenkins --env DOCKER_HOST=tcp://docker:2376 \
+  --env DOCKER_CERT_PATH=/certs/client --env DOCKER_TLS_VERIFY=1 \
+  --volume jenkins-data:/var/jenkins_home \
+  --volume jenkins-docker-certs:/certs/client:ro \
+  --volume "$HOME":/home --publish 8080:8080 jenkinsci/blueocean
+```
+Jenkins admin available at 
+*localhost:8080* 
+Password can be reset once logged in. 
