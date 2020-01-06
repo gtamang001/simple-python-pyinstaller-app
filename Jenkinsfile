@@ -12,8 +12,7 @@ pipeline {
             }
         }
     }
-
-    stage('Test') {
+        stage('Test') {
             agent {
                 docker {
                     image 'qnib/pytest'
@@ -29,7 +28,7 @@ pipeline {
             }
         }
 
-    stage('Deliver') {
+        stage('Deliver') {
             agent {
                 docker {
                     image 'cdrx/pyinstaller-linux:python2'
